@@ -6,7 +6,7 @@ import com.food.ordering.system.order.service.domain.dto.track.TrackOrderQuery
 import com.food.ordering.system.order.service.domain.dto.track.TrackOrderResponse
 
 
-interface OrderApplicationService {
+interface OrderUseCase {
 
     fun createOrder(createOrderCommand: CreateOrderCommand): CreateOrderResponse
 

@@ -32,7 +32,7 @@ class OrderCreateHelper(
         val order = orderMapper.createOrderCommandToOrder(createOrderCommand)
         val orderCreatedEvent = orderDomainService.validateAndInitiateOrder(order, restaurant)
         saveOrder(order)
-        log.info("Order is created with id : ${saveOrder.id?.id}")
+        log.info("Order is created with id : ${order.id?.id}")
         return orderCreatedEvent;
     }
 

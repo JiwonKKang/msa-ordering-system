@@ -7,13 +7,16 @@ import com.food.ordering.system.domain.valueobject.RestaurantId
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderCommand
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderResponse
 import com.food.ordering.system.order.service.domain.dto.create.OrderAddress
+import com.food.ordering.system.order.service.domain.dto.track.TrackOrderResponse
 import com.food.ordering.system.order.service.domain.entity.Order
 import com.food.ordering.system.order.service.domain.entity.OrderItem
 import com.food.ordering.system.order.service.domain.entity.Product
 import com.food.ordering.system.order.service.domain.entity.Restaurant
 import com.food.ordering.system.order.service.domain.valueobject.StreetAddress
+import org.springframework.stereotype.Component
 import java.util.*
 
+@Component
 class OrderMapper {
 
     fun createOrderCommandToRestaurant(createOrderCommand: CreateOrderCommand): Restaurant {
@@ -30,6 +33,22 @@ class OrderMapper {
             deliveryAddress = streetAddressToDeliveryAddress(createOrderCommand.address),
             price = Money(createOrderCommand.price),
             items = orderItemsToOrderItemEntities(createOrderCommand.items)
+        )
+    }
+
+    fun orderToCreateOrderResponse(order: Order, message: String): CreateOrderResponse {
+        return CreateOrderResponse(
+            orderTrackingId = order.trackingId.value,
+            orderStatus = order.orderStatus,
+            message = message
+        )
+    }
+
+    fun orderToTrackOrderResponse(order: Order): TrackOrderResponse {
+        return TrackOrderResponse(
+            orderTrackingId = order.trackingId.value,
+            orderStatus = order.orderStatus,
+            failureMessages = order.failureMessages
         )
     }
 
@@ -55,12 +74,6 @@ class OrderMapper {
         )
     }
 
-    fun orderToCreateOrderResponse(saveOrder: Order): CreateOrderResponse {
-        return CreateOrderResponse(
-            orderTrackingId = saveOrder.trackingId.value,
-            orderStatus = saveOrder.orderStatus,
-            message = saveOrder.failureMessages[0]
-        )
-    }
+
 
 }

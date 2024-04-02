@@ -7,11 +7,13 @@ import com.food.ordering.system.order.service.domain.event.OrderCancelledEvent
 import com.food.ordering.system.order.service.domain.event.OrderCreatedEvent
 import com.food.ordering.system.order.service.domain.event.OrderPaidEvent
 import com.food.ordering.system.order.service.domain.exception.OrderDomainException
+import org.springframework.stereotype.Service
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
 const val SEOUL = "Asia/Seoul"
 
+@Service
 class OrderDomainServiceImpl : OrderDomainService {
 
     private val log = logger();
@@ -30,10 +32,15 @@ class OrderDomainServiceImpl : OrderDomainService {
     }
 
     private fun setOrderProductInformation(order: Order, restaurant: Restaurant) {
-        order.items.map { it.product }
-            .intersect(restaurant.products.toSet()).forEach { product ->
-                product.updateWithConfirmedNameAndPrice(product.name, product.price)
+        val productsMap = restaurant.products.associateBy { it.id }
+
+        order.items.forEach { orderItem ->
+            val restaurantProduct = productsMap[orderItem.product.id]
+
+            restaurantProduct?.let {
+                orderItem.product.updateWithConfirmedNameAndPrice(it.name, it.price)
             }
+        }
     }
 
     private fun validateRestaurant(restaurant: Restaurant) {
