@@ -15,7 +15,6 @@ class Order(
     val deliveryAddress: StreetAddress,
     val price: Money,
     val items: List<OrderItem>,
-
     var trackingId: TrackingId = TrackingId(UUID.randomUUID()),
     var orderStatus: OrderStatus = OrderStatus.PENDING,
     var failureMessages: MutableList<String> = mutableListOf()
@@ -28,6 +27,38 @@ class Order(
     fun validateOrder() {
         validateTotalPrice()
         validateItemsPrice()
+    }
+
+    fun pay() {
+        if (orderStatus != OrderStatus.PENDING) {
+            throw OrderDomainException("Order is not in correct state for pay operation!")
+        }
+    }
+
+    fun approve() {
+        if (orderStatus != OrderStatus.PAID) {
+            throw OrderDomainException("Order is not in correct state for approve operation!")
+        }
+    }
+
+    fun initCancel(failureMessages: List<String>) {
+        if (orderStatus != OrderStatus.PAID) {
+            throw OrderDomainException("Order is not in correct state for initCancel initialization!")
+        }
+        orderStatus = OrderStatus.CANCELLING
+        updateFailureMessages(failureMessages)
+    }
+
+    fun cancel(failureMessages: List<String>) {
+        if (!(orderStatus == OrderStatus.CANCELLING || orderStatus == OrderStatus.PENDING)) {
+            throw OrderDomainException("Order is not in correct state for cancel operation!")
+        }
+        orderStatus = OrderStatus.CANCELLED
+        updateFailureMessages(failureMessages)
+    }
+
+    private fun updateFailureMessages(failureMessages: List<String>) {
+        this.failureMessages.addAll(failureMessages.stream().filter{ message -> message.isNotEmpty() }.toList())
     }
 
     private fun validateItemsPrice() {
@@ -45,8 +76,10 @@ class Order(
 
     private fun validateItemPrice(orderItem: OrderItem?) {
         orderItem?.let {
-            if (!orderItem.isPriceValid()) {
-                throw OrderDomainException("Order item price: ${orderItem.price.amount} is not valid for product ${orderItem.product.id.value}")
+            with(orderItem) {
+                if (!isPriceValid()) {
+                    throw OrderDomainException("Order item price: ${price.amount} is not valid for product ${product.id!!.value}")
+                }
             }
         }
     }
@@ -60,7 +93,7 @@ class Order(
 
     private fun initializeOrderItems() {
         var itemId = 1L;
-        items.forEach { it.initializeOrderItem(OrderItemId(itemId++), getId() ) }
+        items.forEach { it.initializeOrderItem(OrderItemId(itemId++), super.id ) }
     }
 
 

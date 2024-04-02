@@ -1,13 +1,6 @@
 package com.food.ordering.system.domain.entity
 
-abstract class BaseEntity<ID>(val id: ID) {
-
-    fun setId(id: ID) {
-    }
-
-    fun getId(): ID {
-        return id
-    }
+abstract class BaseEntity<ID>(var id: ID?) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
