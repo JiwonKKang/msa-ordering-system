@@ -79,7 +79,7 @@ class Order(
         orderItem?.let {
             with(orderItem) {
                 if (!isPriceValid()) {
-                    throw OrderDomainException("Order item price: ${price.amount} is not valid for product ${product.id!!.value}")
+                    throw OrderDomainException("Order item price: ${price.amount} is not valid for product ${product.id.value}")
                 }
             }
         }

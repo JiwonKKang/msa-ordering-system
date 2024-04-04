@@ -17,7 +17,7 @@ class OrderMapper {
 
     fun orderToOrderEntity(order: Order): OrderEntity {
         val orderEntity = OrderEntity(
-            id = order.id!!.value,
+            id = order.id.value,
             customerId = order.customerId.value,
             restaurantId = order.restaurantId.value,
             orderTrackingId = order.trackingId.value,
@@ -36,8 +36,8 @@ class OrderMapper {
 
     private fun orderItemsToOrderItemEntities(items: List<OrderItem>): List<OrderItemEntity> = items.map { orderItem ->
         OrderItemEntity(
-            id = orderItem.id!!.value,
-            productId = orderItem.product.id!!.value,
+            id = orderItem.id.value,
+            productId = orderItem.product.id.value,
             quantity = orderItem.quantity,
             price = orderItem.price.amount,
             subTotal = orderItem.subTotal.amount

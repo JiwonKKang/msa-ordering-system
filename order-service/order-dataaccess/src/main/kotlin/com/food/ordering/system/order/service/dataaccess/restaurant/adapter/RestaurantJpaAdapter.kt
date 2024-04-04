@@ -15,8 +15,8 @@ class RestaurantJpaAdapter(
         val restaurantProducts = restaurantMapper.restaurantToRestaurantProducts(restaurant)
 
         val restaurantEntities =
-            restaurantRepository.findByRestaurantIdAndProductIdIn(restaurant.id!!.value, restaurantProducts)
+            restaurantRepository.findByRestaurantIdAndProductIdIn(restaurant.id.value, restaurantProducts)
 
-        return restaurantMapper.restaurantEntityToRestaurant(restaurantEntities)
+        return restaurantMapper.restaurantEntitiesToRestaurant(restaurantEntities)
     }
 }

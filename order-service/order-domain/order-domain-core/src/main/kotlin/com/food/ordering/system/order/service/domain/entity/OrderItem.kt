@@ -6,15 +6,15 @@ import com.food.ordering.system.domain.valueobject.OrderId
 import com.food.ordering.system.order.service.domain.valueobject.OrderItemId
 
 class OrderItem(
-    orderItemId: OrderItemId? = null,
-    var orderId: OrderId? = null,
+    orderItemId: OrderItemId = OrderItemId(1L),
     val product: Product,
     val quantity: Int,
     val price: Money,
     val subTotal: Money,
 ): BaseEntity<OrderItemId>(orderItemId) {
+    lateinit var orderId: OrderId
 
-    fun initializeOrderItem(orderItemId: OrderItemId, orderId: OrderId?) {
+    fun initializeOrderItem(orderItemId: OrderItemId, orderId: OrderId) {
         super.id = orderItemId
         this.orderId = orderId
     }

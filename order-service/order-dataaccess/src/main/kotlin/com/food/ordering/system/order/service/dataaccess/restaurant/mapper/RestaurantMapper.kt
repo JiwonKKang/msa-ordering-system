@@ -15,10 +15,10 @@ class RestaurantMapper {
 
     fun restaurantToRestaurantProducts(restaurant: Restaurant): List<UUID> =
         restaurant.products.map { product: Product ->
-            product.id!!.value
+            product.id.value
         }
 
-    fun restaurantEntityToRestaurant(restaurantEntities: List<RestaurantEntity>): Restaurant {
+    fun restaurantEntitiesToRestaurant(restaurantEntities: List<RestaurantEntity>): Restaurant {
         val restaurantEntity = restaurantEntities.stream().findFirst()
             .orElseThrow { RestaurantNotFoundException("Restaurant could not be found!") }
 
