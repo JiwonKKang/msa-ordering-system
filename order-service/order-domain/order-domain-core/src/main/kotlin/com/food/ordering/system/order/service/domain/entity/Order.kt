@@ -39,6 +39,7 @@ class Order(
         if (orderStatus != OrderStatus.PAID) {
             throw OrderDomainException("Order is not in correct state for approve operation!")
         }
+        orderStatus = OrderStatus.APPROVED
     }
 
     fun initCancel(failureMessages: List<String>) {

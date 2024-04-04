@@ -5,6 +5,10 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 infrastructure/docker-compose/volumes/*
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 ### STS ###
 .apt_generated
 .classpath

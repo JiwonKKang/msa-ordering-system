@@ -8,11 +8,30 @@ plugins {
 }
 
 allprojects {
-	group = "com.ddd"
-	version = "0.0.1-SNAPSHOT"
+	group = "com.food.ordering.system"
+	version = "0.0.1"
 
 	repositories {
 		mavenCentral()
+		gradlePluginPortal()
+		maven {
+			url = uri("https://packages.confluent.io/maven")
+		}
+	}
+
+	tasks.withType<Test> {
+		useJUnitPlatform()
+	}
+}
+
+subprojects {
+
+	apply {
+		plugin("org.jetbrains.kotlin.jvm")
+		plugin("org.jetbrains.kotlin.plugin.spring")
+		plugin("org.springframework.boot")
+		plugin("io.spring.dependency-management")
+
 	}
 
 	tasks.withType<KotlinCompile> {
@@ -22,22 +41,14 @@ allprojects {
 		}
 	}
 
-	tasks.withType<Test> {
-		useJUnitPlatform()
+	tasks.named("bootJar") {
+		enabled = false
 	}
 
-}
-
-java {
-	sourceCompatibility = JavaVersion.VERSION_17
-}
-
-subprojects {
-
-	apply(plugin = "org.jetbrains.kotlin.jvm")
-	apply(plugin = "org.jetbrains.kotlin.plugin.spring")
-	apply(plugin = "org.springframework.boot")
-	apply(plugin = "io.spring.dependency-management")
+	java {
+		sourceCompatibility = JavaVersion.VERSION_17
+		targetCompatibility = JavaVersion.VERSION_17
+	}
 
 	dependencies {
 		implementation("org.springframework.boot:spring-boot-starter")
@@ -47,6 +58,38 @@ subprojects {
 
 		testImplementation("org.springframework.boot:spring-boot-starter-test")
 
+	}
+}
+
+val serializerVersion = "7.6.0"
+val avroVersion = "1.11.3"
+
+project(":infrastructure:kafka:kafka-config-data") {
+	dependencies {
+		implementation("org.springframework.kafka:spring-kafka")
+		api("io.confluent:kafka-avro-serializer:$serializerVersion")
+		api("org.apache.avro:avro:$avroVersion")
+	}
+}
+
+project(":infrastructure:kafka:kafka-producer") {
+	dependencies {
+		api("io.confluent:kafka-avro-serializer:$serializerVersion")
+		api("org.apache.avro:avro:$avroVersion")
+	}
+}
+
+project(":infrastructure:kafka:kafka-consumer") {
+	dependencies {
+		api("io.confluent:kafka-avro-serializer:$serializerVersion")
+		api("org.apache.avro:avro:$avroVersion")
+	}
+}
+
+project(":infrastructure:kafka:kafka-model") {
+	dependencies {
+		api("org.springframework.kafka:spring-kafka")
+		api("org.apache.avro:avro:${avroVersion}")
 	}
 }
 
