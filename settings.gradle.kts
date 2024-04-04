@@ -1,7 +1,11 @@
 rootProject.name = "order-system"
 
-include(":common")
-include(":common:common-domain")
+include(
+    ":common",
+    ":common:common-domain",
+    ":common:common-application"
+)
+
 
 include(":order-service")
 include(":order-service:order-dataaccess")

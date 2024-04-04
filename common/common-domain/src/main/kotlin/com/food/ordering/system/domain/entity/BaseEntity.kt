@@ -1,6 +1,8 @@
 package com.food.ordering.system.domain.entity
 
-abstract class BaseEntity<ID>(var id: ID?) {
+abstract class BaseEntity<ID>(
+    var id: ID?
+) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

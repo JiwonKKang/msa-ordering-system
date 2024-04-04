@@ -6,7 +6,7 @@ import com.food.ordering.system.order.service.domain.valueobject.TrackingId
 
 interface OrderJpaPort {
 
-    fun save(order: Order): Order?
+    fun save(order: Order): Order
 
     fun findByTrackingId(trackingId: TrackingId): Order?
 

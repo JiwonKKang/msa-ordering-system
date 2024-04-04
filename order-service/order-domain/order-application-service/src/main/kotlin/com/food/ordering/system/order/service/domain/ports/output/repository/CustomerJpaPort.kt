@@ -5,5 +5,5 @@ import java.util.*
 
 interface CustomerJpaPort {
 
-    fun findCustomer(customerId: UUID): Customer?
+    fun findCustomer(customerId: UUID): Customer
 }

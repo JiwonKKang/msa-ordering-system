@@ -4,5 +4,5 @@ import com.food.ordering.system.order.service.domain.entity.Restaurant
 
 interface RestaurantJpaPort {
 
-    fun findRestaurantInformation(restaurant: Restaurant): Restaurant?
+    fun findRestaurantInformation(restaurant: Restaurant): Restaurant
 }
