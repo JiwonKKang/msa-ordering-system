@@ -1,11 +1,11 @@
 package com.food.ordering.system.order.service.dataaccess.order.entity
 
 import java.io.Serializable
-import java.util.*
 
-class OrderItemEntityId(
-    val id: UUID,
-    val order: OrderEntity
+
+data class OrderItemEntityId(
+    val id: Long? = null,
+    val order: OrderEntity? = null
 ) : Serializable {
 
     override fun equals(other: Any?): Boolean {

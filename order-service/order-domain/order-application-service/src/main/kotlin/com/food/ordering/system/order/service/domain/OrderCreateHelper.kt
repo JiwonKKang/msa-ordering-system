@@ -5,7 +5,6 @@ import com.food.ordering.system.order.service.domain.dto.create.CreateOrderComma
 import com.food.ordering.system.order.service.domain.entity.Order
 import com.food.ordering.system.order.service.domain.entity.Restaurant
 import com.food.ordering.system.order.service.domain.event.OrderCreatedEvent
-import com.food.ordering.system.order.service.domain.exception.OrderDomainException
 import com.food.ordering.system.order.service.domain.mapper.OrderMapper
 import com.food.ordering.system.order.service.domain.ports.output.repository.CustomerJpaPort
 import com.food.ordering.system.order.service.domain.ports.output.repository.OrderJpaPort
@@ -32,21 +31,20 @@ class OrderCreateHelper(
         val order = orderMapper.createOrderCommandToOrder(createOrderCommand)
         val orderCreatedEvent = orderDomainService.validateAndInitiateOrder(order, restaurant)
         saveOrder(order)
-        log.info("Order is created with id : ${order.id?.id}")
+        log.info("Order is created with id : ${order.id.id}")
         return orderCreatedEvent;
     }
 
     private fun checkRestaurant(createOrderCommand: CreateOrderCommand): Restaurant {
         val restaurant = orderMapper.createOrderCommandToRestaurant(createOrderCommand)
-        return restaurantJpaPort.findRestaurantInformation(restaurant)
-            ?: throw OrderDomainException("Could not find restaurant with restaurant id: ${createOrderCommand.restaurantId}")
+        return restaurantJpaPort.findRestaurantInformation(restaurant);
     }
 
     private fun checkCustomer(customerId: UUID) {
-        customerJpaPort.findCustomer(customerId) ?: throw OrderDomainException("customer not founded")
+        customerJpaPort.findCustomer(customerId);
     }
 
     private fun saveOrder(order: Order) {
-        orderJpaPort.save(order) ?: throw OrderDomainException("Could not save order!")
+        orderJpaPort.save(order);
     }
 }

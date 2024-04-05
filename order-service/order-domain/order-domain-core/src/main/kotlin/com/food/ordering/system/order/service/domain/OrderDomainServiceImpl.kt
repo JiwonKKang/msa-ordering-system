@@ -23,7 +23,7 @@ class OrderDomainServiceImpl : OrderDomainService {
         setOrderProductInformation(order, restaurant)
         order.validateOrder()
         order.initializeOrder()
-        log.info("Order with id: ${order.id?.id} is initiated}")
+        log.info("Order with id: ${order.id.id} is initiated}")
         return OrderCreatedEvent(
             order = order,
             createdAt = ZonedDateTime.now(ZoneId.of(SEOUL))
@@ -45,13 +45,13 @@ class OrderDomainServiceImpl : OrderDomainService {
 
     private fun validateRestaurant(restaurant: Restaurant) {
         if (!restaurant.active) {
-            throw OrderDomainException("Restaurant with id ${restaurant.id?.id} is currently not active!")
+            throw OrderDomainException("Restaurant with id ${restaurant.id.id} is currently not active!")
         }
     }
 
     override fun payOrder(order: Order): OrderPaidEvent {
         order.pay()
-        log.info("Order with id: ${order.id?.id} is paid")
+        log.info("Order with id: ${order.id.id} is paid")
         return OrderPaidEvent(
             order = order,
             createdAt = ZonedDateTime.now(ZoneId.of(SEOUL))
@@ -60,12 +60,12 @@ class OrderDomainServiceImpl : OrderDomainService {
 
     override fun approveOrder(order: Order) {
         order.approve()
-        log.info("Order with id: ${order.id?.id} is approved")
+        log.info("Order with id: ${order.id.id} is approved")
     }
 
     override fun cancelOrderPayment(order: Order, failureMessage: List<String>): OrderCancelledEvent {
         order.initCancel(failureMessage)
-        log.info("Order payment is cancelling for order id: ${order.id?.id}")
+        log.info("Order payment is cancelling for order id: ${order.id.id}")
         return OrderCancelledEvent(
             order = order,
             createdAt = ZonedDateTime.now(ZoneId.of(SEOUL))
@@ -74,6 +74,6 @@ class OrderDomainServiceImpl : OrderDomainService {
 
     override fun cancelOrder(order: Order, failureMessage: List<String>) {
         order.cancel(failureMessage)
-        log.info("Order with id: ${order.id?.id} is cancelled")
+        log.info("Order with id: ${order.id.id} is cancelled")
     }
 }

@@ -14,6 +14,17 @@ class OrderItem(
 ): BaseEntity<OrderItemId>(orderItemId) {
     lateinit var orderId: OrderId
 
+    constructor(
+        orderItemId: OrderItemId,
+        orderId: OrderId,
+        product: Product,
+        quantity: Int,
+        price: Money,
+        subTotal: Money
+    ) : this(orderItemId, product, quantity, price, subTotal) {
+        this.orderId = orderId
+    }
+
     fun initializeOrderItem(orderItemId: OrderItemId, orderId: OrderId) {
         super.id = orderItemId
         this.orderId = orderId

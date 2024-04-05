@@ -20,7 +20,7 @@ class OrderCreateCommandHandler(
     @Transactional
     fun createOrder(createOrderCommand: CreateOrderCommand): CreateOrderResponse {
         val orderCreatedEvent = orderCreateHelper.persistOrder(createOrderCommand)
-        log.info("Order is created with id : ${orderCreatedEvent.order.id?.id}")
+        log.info("Order is created with id : ${orderCreatedEvent.order.id.id}")
         eventPublisher.publish(orderCreatedEvent)
         return orderMapper.orderToCreateOrderResponse(orderCreatedEvent.order, "Order Created Successfully")
     }
