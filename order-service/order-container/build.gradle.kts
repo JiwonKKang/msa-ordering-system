@@ -2,12 +2,12 @@ import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 dependencies {
-    api(project(":order-service:order-domain:order-application-service"))
-    api(project(":order-service:order-domain:order-domain-core"))
+    implementation(project(":order-service:order-domain:order-application-service"))
+    implementation(project(":order-service:order-domain:order-domain-core"))
 
-    api(project(":order-service:order-application"))
-    api(project(":order-service:order-dataaccess"))
-    api(project(":order-service:order-messaging"))
+    implementation(project(":order-service:order-application"))
+    implementation(project(":order-service:order-dataaccess"))
+    implementation(project(":order-service:order-messaging"))
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 }

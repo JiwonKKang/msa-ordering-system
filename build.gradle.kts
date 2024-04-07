@@ -66,7 +66,7 @@ val avroVersion = "1.11.3"
 
 project(":infrastructure:kafka:kafka-config-data") {
 	dependencies {
-		implementation("org.springframework.kafka:spring-kafka")
+		api("org.springframework.kafka:spring-kafka")
 		api("io.confluent:kafka-avro-serializer:$serializerVersion")
 		api("org.apache.avro:avro:$avroVersion")
 	}
