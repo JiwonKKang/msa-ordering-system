@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
-@RequestMapping(value = ["/order"], produces = ["application/vnd.api.v1+json"])
+@RequestMapping(value = ["/orders"], produces = ["application/vnd.api.v1+json"])
 class OrderApi(
     private val orderUseCase: OrderUseCase,
 ) {

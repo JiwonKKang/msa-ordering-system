@@ -6,6 +6,6 @@ import java.util.*
 
 interface OrderJpaRepository : JpaRepository<OrderEntity, UUID> {
 
-    fun findByOrderTrackingId(orderTrackingId: UUID): OrderEntity?
+    fun findByTrackingId(orderTrackingId: UUID): OrderEntity?
 
 }

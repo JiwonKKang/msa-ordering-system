@@ -38,8 +38,10 @@ class KafkaConsumerConfig<K: Serializable, V: SpecificRecordBase>(
         return props
     }
 
+    @Bean
     fun consumerFactory(): ConsumerFactory<K, V> = DefaultKafkaConsumerFactory(consumerConfigs())
 
+    @Bean
     fun kafkaListenerContainerFactory(): KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<K, V>> {
         val factory = ConcurrentKafkaListenerContainerFactory<K, V>()
         factory.consumerFactory = consumerFactory()

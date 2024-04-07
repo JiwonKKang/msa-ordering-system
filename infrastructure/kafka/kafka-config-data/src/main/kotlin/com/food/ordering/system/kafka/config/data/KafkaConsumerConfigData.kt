@@ -3,9 +3,10 @@ package com.food.ordering.system.kafka.config.data
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
+
 @Component
 data class KafkaConsumerConfigData (
-    @Value("\${$CONSUMER_CONFIG.key-deserializer}")
+    @Value("\${kafka-consumer-config.key-deserializer}")
     val keyDeserializer: String,
     @Value("\${$CONSUMER_CONFIG.value-deserializer}")
     val valueDeserializer: String,

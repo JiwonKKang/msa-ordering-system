@@ -9,7 +9,7 @@ import java.util.*
 
 @Entity
 @IdClass(RestaurantEntityId::class)
-@Table(name = "restaurant")
+@Table(name = "order_restaurant_m_view", schema = "restaurant")
 class RestaurantEntity (
     @Id
     val restaurantId: UUID,

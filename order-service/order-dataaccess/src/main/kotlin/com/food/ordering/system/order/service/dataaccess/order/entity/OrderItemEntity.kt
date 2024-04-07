@@ -6,7 +6,7 @@ import java.util.*
 
 @Entity
 @IdClass(OrderItemEntityId::class)
-@Table(name = "order_item")
+@Table(name = "order_items")
 class OrderItemEntity(
     @Id
     val id: Long,

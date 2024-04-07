@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component
 
 @Component
 data class KafkaConfigData (
-    @Value("\${$CONFIG_DATA.bootstrap-servers}")
+    @Value("\${kafka-config.bootstrap-servers}")
     val bootstrapServers: String,
     @Value("\${$CONFIG_DATA.schema-registry-url-key}")
     val schemaRegistryUrlKey: String,
@@ -15,8 +15,6 @@ data class KafkaConfigData (
     val numOfPartitions: Int,
     @Value("\${$CONFIG_DATA.replication-factor}")
     val replicationFactor: Short,
-
 )
 
-const val CONFIG_DATA: String = "kafka-config-data"
-
+const val CONFIG_DATA = "kafka-config"

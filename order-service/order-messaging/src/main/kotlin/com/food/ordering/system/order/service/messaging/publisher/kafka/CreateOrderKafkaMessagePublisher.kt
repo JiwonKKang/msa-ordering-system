@@ -7,7 +7,9 @@ import com.food.ordering.system.order.service.domain.config.OrderServiceConfigDa
 import com.food.ordering.system.order.service.domain.event.OrderCreatedEvent
 import com.food.ordering.system.order.service.domain.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher
 import com.food.ordering.system.order.service.messaging.mapper.OrderMessagingDataMapper
+import org.springframework.stereotype.Component
 
+@Component
 class CreateOrderKafkaMessagePublisher(
     private val orderServiceConfigData: OrderServiceConfigData,
     private val orderMessagingDataMapper: OrderMessagingDataMapper,

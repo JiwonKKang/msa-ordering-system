@@ -5,7 +5,9 @@ include(
     ":common:common-domain",
     ":common:common-application"
 )
-
+include(
+    ":customer-service",
+)
 
 include(":order-service")
 include(":order-service:order-dataaccess")

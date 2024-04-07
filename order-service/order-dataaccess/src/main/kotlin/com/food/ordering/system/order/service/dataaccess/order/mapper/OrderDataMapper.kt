@@ -13,17 +13,17 @@ import com.food.ordering.system.order.service.domain.valueobject.TrackingId
 import org.springframework.stereotype.Component
 
 @Component
-class OrderMapper {
+class OrderDataMapper {
 
     fun orderToOrderEntity(order: Order): OrderEntity {
         val orderEntity = OrderEntity(
             id = order.id.value,
             customerId = order.customerId.value,
             restaurantId = order.restaurantId.value,
-            orderTrackingId = order.trackingId.value,
+            trackingId = order.trackingId.value,
             price = order.price.amount,
             orderStatus = order.orderStatus,
-            failureMessage = order.failureMessages.joinToString(separator = ","),
+            failureMessages = order.failureMessages.joinToString(separator = ","),
             orderAddress = deliveryAddressToAddressEntity(order.deliveryAddress),
             orderItems = orderItemsToOrderItemEntities(order.items)
         )
@@ -62,9 +62,9 @@ fun OrderEntity.orderEntityToOrder(): Order = let {
         deliveryAddress = it.orderAddress.addressEntityToDeliveryAddress(),
         price = Money(amount = it.price),
         items = it.orderItems.orderItemEntitiesToOrderItems(),
-        trackingId = TrackingId(it.orderTrackingId),
-        failureMessages = if(it.failureMessage.isEmpty()) mutableListOf() else
-            it.failureMessage.split(",").toMutableList(),
+        trackingId = TrackingId(it.trackingId),
+        failureMessages = if(it.failureMessages.isEmpty()) mutableListOf() else
+            it.failureMessages.split(",").toMutableList(),
         orderStatus = orderStatus
     )
 }

@@ -7,13 +7,11 @@ import com.food.ordering.system.order.service.domain.event.OrderCancelledEvent
 import com.food.ordering.system.order.service.domain.event.OrderCreatedEvent
 import com.food.ordering.system.order.service.domain.event.OrderPaidEvent
 import com.food.ordering.system.order.service.domain.exception.OrderDomainException
-import org.springframework.stereotype.Service
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
 const val SEOUL = "Asia/Seoul"
 
-@Service
 class OrderDomainServiceImpl : OrderDomainService {
 
     private val log = logger();

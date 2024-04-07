@@ -4,7 +4,9 @@ import com.food.ordering.system.order.service.dataaccess.restaurant.mapper.Resta
 import com.food.ordering.system.order.service.dataaccess.restaurant.repository.RestaurantRepository
 import com.food.ordering.system.order.service.domain.entity.Restaurant
 import com.food.ordering.system.order.service.domain.ports.output.repository.RestaurantJpaPort
+import org.springframework.stereotype.Component
 
+@Component
 class RestaurantJpaAdapter(
     private val restaurantRepository: RestaurantRepository,
     private val restaurantMapper: RestaurantMapper

@@ -1,9 +1,11 @@
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
+    kotlin("plugin.jpa") version "1.9.23"
+}
 
-    id("io.kotest.multiplatform") version "5.0.2"
-    kotlin("plugin.jpa") version "1.8.22"
+apply {
+    plugin("kotlin-jpa")
 }
 
 allOpen {

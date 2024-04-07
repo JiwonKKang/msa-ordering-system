@@ -8,7 +8,7 @@ import jakarta.persistence.Table
 import java.util.*
 
 @Entity
-@Table(name = "customer")
+@Table(name = "order_customer_m_view", schema = "customer")
 class CustomerEntity(
     @Id
     val id: UUID
