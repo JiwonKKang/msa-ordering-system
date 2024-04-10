@@ -6,7 +6,6 @@ import com.food.ordering.system.order.service.domain.dto.create.CreateOrderRespo
 import com.food.ordering.system.order.service.domain.mapper.OrderMapper
 import com.food.ordering.system.order.service.domain.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher
 import org.springframework.stereotype.Component
-import org.springframework.transaction.annotation.Transactional
 
 @Component
 class OrderCreateCommandHandler(
@@ -17,7 +16,6 @@ class OrderCreateCommandHandler(
 
     val log = logger()
 
-    @Transactional
     fun createOrder(createOrderCommand: CreateOrderCommand): CreateOrderResponse {
         val orderCreatedEvent = orderCreateHelper.persistOrder(createOrderCommand)
         log.info("Order is created with id : ${orderCreatedEvent.order.id.id}")

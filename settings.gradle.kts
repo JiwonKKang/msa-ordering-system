@@ -9,6 +9,18 @@ include(
     ":customer-service",
 )
 
+include(
+    ":payment-service",
+    ":payment-service:payment-dataaccess",
+    ":payment-service:payment-domain",
+    ":payment-service:payment-messaging",
+    ":payment-service:payment-container",
+    ":payment-service:payment-domain:payment-application-service",
+    ":payment-service:payment-domain:payment-domain-core",
+
+
+)
+
 include(":order-service")
 include(":order-service:order-dataaccess")
 include(":order-service:order-domain")
