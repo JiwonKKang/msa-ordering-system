@@ -16,6 +16,7 @@ class PaymentDataMapper {
             orderId = OrderId(UUID.fromString(paymentRequest.orderId)),
             customerId = CustomerId(UUID.fromString(paymentRequest.customerId)),
             price = Money(paymentRequest.price)
+
         )
     }
 

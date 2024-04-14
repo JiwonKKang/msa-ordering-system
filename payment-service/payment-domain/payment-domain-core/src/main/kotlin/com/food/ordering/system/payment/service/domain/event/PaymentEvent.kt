@@ -10,5 +10,7 @@ abstract class PaymentEvent(
     val payment: Payment,
     val createdAt: ZonedDateTime = ZonedDateTime.now(ZoneId.of(KOREA_DATE_TIME)),
     val failureMessages: List<String> = listOf()
-) : DomainEvent<Payment>{
+
+) : DomainEvent<Payment> {
+
 }

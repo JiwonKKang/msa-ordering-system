@@ -1,5 +1,6 @@
 package com.food.ordering.system.payment.service.domain
 
+import com.food.ordering.system.domain.event.publish.DomainEventPublisher
 import com.food.ordering.system.domain.util.logger
 import com.food.ordering.system.domain.valueobject.Money
 import com.food.ordering.system.domain.valueobject.PaymentStatus
@@ -12,9 +13,7 @@ import com.food.ordering.system.payment.service.domain.event.PaymentEvent
 import com.food.ordering.system.payment.service.domain.event.PaymentFailedEvent
 import com.food.ordering.system.payment.service.domain.valueobject.TransactionType
 
-class PaymentDomainServiceImpl(
-
-) : PaymentDomainService {
+class PaymentDomainServiceImpl: PaymentDomainService {
 
     val log = logger()
 
@@ -22,7 +21,9 @@ class PaymentDomainServiceImpl(
         payment: Payment,
         creditEntry: CreditEntry,
         creditHistories: MutableList<CreditHistory>,
-        failureMessages: MutableList<String>
+        failureMessages: MutableList<String>,
+        paymentCompletedEventPublisher: DomainEventPublisher<PaymentCompletedEvent>,
+        paymentFailedEventPublisher: DomainEventPublisher<PaymentFailedEvent>
     ): PaymentEvent {
 
         payment.validatePayment(failureMessages)
@@ -34,11 +35,18 @@ class PaymentDomainServiceImpl(
         return when {
             failureMessages.isEmpty() -> {
                 payment.updateStatus(PaymentStatus.COMPLETED)
-                PaymentCompletedEvent(payment)
+                PaymentCompletedEvent(
+                    payment = payment,
+                    paymentCompletedEventPublisher = paymentCompletedEventPublisher
+                )
             }
             else -> {
                 payment.updateStatus(PaymentStatus.FAILED)
-                PaymentFailedEvent(payment, failureMessages)
+                PaymentFailedEvent(
+                    payment = payment,
+                    failureMessages = failureMessages,
+                    paymentFailedEventPublisher = paymentFailedEventPublisher
+                )
             }
         }
     }
@@ -47,7 +55,9 @@ class PaymentDomainServiceImpl(
         payment: Payment,
         creditEntry: CreditEntry,
         creditHistories: MutableList<CreditHistory>,
-        failureMessages: MutableList<String>
+        failureMessages: MutableList<String>,
+        paymentCancelledEventPublisher: DomainEventPublisher<PaymentCancelledEvent>,
+        paymentFailedEventPublisher: DomainEventPublisher<PaymentFailedEvent>
     ): PaymentEvent {
         payment.validatePayment(failureMessages)
         creditEntry.totalCreditAmount.add(payment.price)
@@ -55,11 +65,18 @@ class PaymentDomainServiceImpl(
         return when {
             failureMessages.isEmpty() -> {
                 payment.updateStatus(PaymentStatus.CANCELLED)
-                PaymentCancelledEvent(payment)
+                PaymentCancelledEvent(
+                    payment = payment,
+                    paymentCancelledEventPublisher = paymentCancelledEventPublisher
+                )
             }
             else -> {
                 payment.updateStatus(PaymentStatus.FAILED)
-                PaymentFailedEvent(payment, failureMessages)
+                PaymentFailedEvent(
+                    payment = payment,
+                    failureMessages = failureMessages,
+                    paymentFailedEventPublisher = paymentFailedEventPublisher
+                )
             }
         }
     }

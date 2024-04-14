@@ -6,6 +6,7 @@ import com.food.ordering.system.order.service.domain.entity.Order
 import com.food.ordering.system.order.service.domain.entity.Restaurant
 import com.food.ordering.system.order.service.domain.event.OrderCreatedEvent
 import com.food.ordering.system.order.service.domain.mapper.OrderMapper
+import com.food.ordering.system.order.service.domain.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher
 import com.food.ordering.system.order.service.domain.ports.output.repository.CustomerJpaPort
 import com.food.ordering.system.order.service.domain.ports.output.repository.OrderJpaPort
 import com.food.ordering.system.order.service.domain.ports.output.repository.RestaurantJpaPort
@@ -19,7 +20,8 @@ class OrderCreateHelper(
     private val orderJpaPort: OrderJpaPort,
     private val customerJpaPort: CustomerJpaPort,
     private val restaurantJpaPort: RestaurantJpaPort,
-    private val orderMapper: OrderMapper
+    private val orderMapper: OrderMapper,
+    private val orderCreatedMessagePublisher: OrderCreatedPaymentRequestMessagePublisher
 ) {
 
     val log = logger()
@@ -29,7 +31,10 @@ class OrderCreateHelper(
         checkCustomer(createOrderCommand.customerId)
         val restaurant = checkRestaurant(createOrderCommand)
         val order = orderMapper.createOrderCommandToOrder(createOrderCommand)
-        val orderCreatedEvent = orderDomainService.validateAndInitiateOrder(order, restaurant)
+        val orderCreatedEvent = orderDomainService.validateAndInitiateOrder(
+            order = order,
+            restaurant = restaurant,
+            orderCreatedEventPublisher = orderCreatedMessagePublisher)
         saveOrder(order)
         log.info("Order is created with id : ${order.id.id}")
         return orderCreatedEvent;

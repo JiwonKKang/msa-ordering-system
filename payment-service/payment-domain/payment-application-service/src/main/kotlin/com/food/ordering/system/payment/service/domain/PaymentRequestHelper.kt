@@ -9,6 +9,9 @@ import com.food.ordering.system.payment.service.domain.entity.CreditHistory
 import com.food.ordering.system.payment.service.domain.entity.Payment
 import com.food.ordering.system.payment.service.domain.event.PaymentEvent
 import com.food.ordering.system.payment.service.domain.mapper.PaymentDataMapper
+import com.food.ordering.system.payment.service.domain.ports.out.message.publisher.PaymentCancelledMessagePublisher
+import com.food.ordering.system.payment.service.domain.ports.out.message.publisher.PaymentCompletedMessagePublisher
+import com.food.ordering.system.payment.service.domain.ports.out.message.publisher.PaymentFailedMessagePublisher
 import com.food.ordering.system.payment.service.domain.ports.out.persistance.CreditEntryJpaPort
 import com.food.ordering.system.payment.service.domain.ports.out.persistance.CreditHistoryJpaPort
 import com.food.ordering.system.payment.service.domain.ports.out.persistance.PaymentJpaPort
@@ -22,7 +25,10 @@ class PaymentRequestHelper(
     private val paymentDataMapper: PaymentDataMapper,
     private val paymentJpaPort: PaymentJpaPort,
     private val creditEntryJpaPort: CreditEntryJpaPort,
-    private val creditHistoryJpaPort: CreditHistoryJpaPort
+    private val creditHistoryJpaPort: CreditHistoryJpaPort,
+    private val paymentCompletedMessagePublisher: PaymentCompletedMessagePublisher,
+    private val paymentCancelledMessagePublisher: PaymentCancelledMessagePublisher,
+    private val paymentFailedMessagePublisher: PaymentFailedMessagePublisher
 ) {
 
     val log = logger()
@@ -36,7 +42,13 @@ class PaymentRequestHelper(
         val failureMessages = mutableListOf<String>()
 
         val paymentEvent =
-            paymentDomainService.validateAndInitiatePayment(payment, creditEntry, creditHistories, failureMessages)
+            paymentDomainService.validateAndInitiatePayment(
+                payment = payment,
+                creditEntry = creditEntry,
+                creditHistories = creditHistories,
+                failureMessages = failureMessages,
+                paymentCompletedEventPublisher = paymentCompletedMessagePublisher,
+                paymentFailedEventPublisher = paymentFailedMessagePublisher)
 
         persistDbObjects(
             payment = payment,
@@ -63,6 +75,8 @@ class PaymentRequestHelper(
             creditEntry = creditEntry,
             creditHistories = creditHistories,
             failureMessages = failureMessages,
+            paymentCancelledEventPublisher = paymentCancelledMessagePublisher,
+            paymentFailedEventPublisher = paymentFailedMessagePublisher
         )
 
         persistDbObjects(

@@ -33,6 +33,7 @@ class Order(
         if (orderStatus != OrderStatus.PENDING) {
             throw OrderDomainException("Order is not in correct state for pay operation!")
         }
+        orderStatus = OrderStatus.PAID
     }
 
     fun approve() {
