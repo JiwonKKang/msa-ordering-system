@@ -1,9 +1,9 @@
-package com.food.ordering.system.payment.service.dataaccess.creditentry.adapter
+package com.food.ordering.system.payment.service.dataaccess.credithistory.adapter
 
 import com.food.ordering.system.domain.valueobject.CustomerId
-import com.food.ordering.system.payment.service.dataaccess.creditentry.mapper.toCreditHistory
-import com.food.ordering.system.payment.service.dataaccess.creditentry.mapper.toCreditHistoryEntity
-import com.food.ordering.system.payment.service.dataaccess.creditentry.repository.CreditHistoryRepository
+import com.food.ordering.system.payment.service.dataaccess.credithistory.mapper.toCreditHistory
+import com.food.ordering.system.payment.service.dataaccess.credithistory.mapper.toCreditHistoryEntity
+import com.food.ordering.system.payment.service.dataaccess.credithistory.repository.CreditHistoryRepository
 import com.food.ordering.system.payment.service.domain.entity.CreditHistory
 import com.food.ordering.system.payment.service.domain.ports.out.persistance.CreditHistoryJpaPort
 

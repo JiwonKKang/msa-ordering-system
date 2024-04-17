@@ -1,4 +1,4 @@
-package com.food.ordering.system.payment.service.dataaccess.creditentry.entity
+package com.food.ordering.system.payment.service.dataaccess.credithistory.entity
 
 import com.food.ordering.system.payment.service.domain.valueobject.TransactionType
 import jakarta.persistence.Entity

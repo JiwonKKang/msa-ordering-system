@@ -4,17 +4,11 @@ import com.food.ordering.system.domain.util.logger
 import com.food.ordering.system.payment.service.domain.dto.PaymentRequest
 import com.food.ordering.system.payment.service.domain.event.PaymentEvent
 import com.food.ordering.system.payment.service.domain.ports.`in`.message.listener.PaymentRequestMessageListener
-import com.food.ordering.system.payment.service.domain.ports.out.message.publisher.PaymentCancelledMessagePublisher
-import com.food.ordering.system.payment.service.domain.ports.out.message.publisher.PaymentCompletedMessagePublisher
-import com.food.ordering.system.payment.service.domain.ports.out.message.publisher.PaymentFailedMessagePublisher
 import org.springframework.stereotype.Service
 
 @Service
 class PaymentRequestMessageListenerImpl(
     private val paymentRequestHelper: PaymentRequestHelper,
-    private val paymentCompletedMessagePublisher: PaymentCompletedMessagePublisher,
-    private val paymentCancelledMessagePublisher: PaymentCancelledMessagePublisher,
-    private val paymentFailedMessagePublisher: PaymentFailedMessagePublisher
 ) : PaymentRequestMessageListener {
 
     val log = logger()
@@ -30,7 +24,7 @@ class PaymentRequestMessageListenerImpl(
     }
 
     private fun fireEvent(paymentEvent: PaymentEvent) {
-        log.info("")
+        log.info("Firing event: $paymentEvent")
         paymentEvent.fire()
     }
 }
